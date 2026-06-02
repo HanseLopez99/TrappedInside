@@ -20,8 +20,10 @@ public class PlayerDeath : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
+        if (isDead) return;
+
         isDead = true;
 
         // Desactivar movimiento del jugador
@@ -35,5 +37,10 @@ public class PlayerDeath : MonoBehaviour
         {
             DeathManager.Instance.ShowDeathScreen();
         }
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 }
