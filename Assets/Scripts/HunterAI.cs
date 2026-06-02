@@ -26,6 +26,9 @@ public class HunterAI : MonoBehaviour
     private int currentPatrolPoint = 0;
     private bool isChasing = false;
 
+    // Solo mostrar diálogo una vez
+    private bool dialogueShown = false;
+
     private float nextAttackTime;
 
     void Start()
@@ -58,6 +61,17 @@ public class HunterAI : MonoBehaviour
         {
             isChasing = true;
             agent.speed = chaseSpeed;
+
+            // Mostrar diálogo solo la primera vez
+            if (!dialogueShown &&
+                DialogueManager.Instance != null)
+            {
+                dialogueShown = true;
+
+                DialogueManager.Instance.ShowThought(
+                    "¿Qué le pasa a este loco?"
+                );
+            }
         }
 
         // Perder jugador
