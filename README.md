@@ -160,5 +160,6 @@ Unity 6
 Hansel Andre López Montenegro
 
 
-👉 **Video del juego:**  
-[![Trapped Inside Gameplay](https://youtu.be/idfBU7fZcaw)](https://youtu.be/idfBU7fZcaw))
+## 🎮 Gameplay
+
+[![Trapped Inside Gameplay](https://img.youtube.com/vi/idfBU7fZcaw/maxresdefault.jpg)](https://youtu.be/idfBU7fZcaw)
