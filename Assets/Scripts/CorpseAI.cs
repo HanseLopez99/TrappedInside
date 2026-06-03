@@ -21,7 +21,7 @@ public class CorpseAI : MonoBehaviour
     public float chaseSpeed = 3f;
 
     [Header("Ataque")]
-    public float attackRange = 2f;
+    public float attackRange = 1.5f;
     public int damage = 15;
     public float attackCooldown = 1.5f;
 
@@ -64,7 +64,6 @@ public class CorpseAI : MonoBehaviour
             {
                 awakened = true;
 
-                // Mostrar pensamiento del jugador
                 if (DialogueManager.Instance != null)
                 {
                     DialogueManager.Instance.ShowThought(
@@ -85,7 +84,6 @@ public class CorpseAI : MonoBehaviour
             return;
         }
 
-        // Esperar que termine de levantarse
         if (!fullyAwake)
             return;
 
@@ -109,6 +107,7 @@ public class CorpseAI : MonoBehaviour
         {
             isChasing = false;
             agent.speed = patrolSpeed;
+            agent.isStopped = false;
 
             if (patrolPoints.Length > 0)
             {
@@ -127,6 +126,7 @@ public class CorpseAI : MonoBehaviour
             }
             else
             {
+                agent.isStopped = false;
                 agent.SetDestination(
                     player.position
                 );
@@ -164,7 +164,7 @@ public class CorpseAI : MonoBehaviour
 
     void Attack()
     {
-        agent.ResetPath();
+        agent.isStopped = true;
 
         Vector3 lookPosition =
             new Vector3(
