@@ -36,6 +36,7 @@ El jugador despierta en una propiedad desconocida y debe explorar, resolver puzz
 - ✔️ Sistema de inventario basado en ScriptableObjects
 - ✔️ Sistema de pickups orientado a eventos
 - ✔️ UI dinámica de inventario con iconos y nombres
+- ✔️ Sistema de guardado y carga mediante JSON
 
 ---
 
@@ -68,6 +69,38 @@ El juego implementa un sistema de inventario basado en ScriptableObjects y event
 - InventoryDisplay: actualiza dinámicamente la interfaz mediante eventos.
 - PickupItem: comportamiento genérico para objetos coleccionables.
 - UI Inventory Panel: representación visual del inventario del jugador.
+
+---
+
+## 💾 Sistema de Guardado (Save / Load)
+
+El juego implementa un sistema de persistencia basado en archivos JSON que permite guardar y cargar el progreso del jugador.
+
+### Datos almacenados
+
+- Posición del jugador (X, Y, Z)
+- Vida actual
+- Estado de la linterna
+- Estado de la llave
+- Objetos registrados en el inventario
+
+### Características
+
+- ✔️ Clase serializable SaveData
+- ✔️ Persistencia mediante archivos JSON
+- ✔️ Guardado manual desde el menú de pausa
+- ✔️ Carga manual desde el menú de pausa
+- ✔️ Manejo de errores cuando no existe un archivo guardado
+- ✔️ Restauración de la posición del jugador
+- ✔️ Restauración de la vida del jugador
+- ✔️ Restauración de estados importantes del juego
+
+### Arquitectura utilizada
+
+- SaveData: estructura serializable utilizada para almacenar la información del juego.
+- PersistenceManager: responsable de guardar y cargar la información persistente.
+- PlayerHealth: integración con el sistema de persistencia para restaurar la vida.
+- Pause Menu: interfaz utilizada para ejecutar las acciones de guardado y carga.
 
 ---
 
@@ -108,6 +141,7 @@ La versión actual incluye:
 - Sistema de linterna
 - Sistema de inventario y recolección de objetos
 - Arquitectura Event & Data Driven mediante ScriptableObjects
+- Sistema de guardado y carga mediante JSON
 - Puzzles básicos
 - Sistema de vida y combate
 - Inteligencia artificial con múltiples comportamientos
@@ -133,6 +167,8 @@ La versión actual incluye:
 | Interactuar / Recoger objetos | E o Click Izquierdo |
 | Encender / Apagar linterna | Click Izquierdo |
 | Pausar juego | ESC |
+| Guardar partida | Menú de Pausa → Save Game |
+| Cargar partida | Menú de Pausa → Load Game |
 
 ---
 
@@ -193,5 +229,7 @@ Hansel Andre López Montenegro
 ---
 
 ## 🎮 Gameplay
-Haz click a continuación para visualizar gameplay en youtube.
-[![Trapped Inside Gameplay](https://img.youtube.com/vi/uiAwj42nV3c/maxresdefault.jpg)](https://youtu.be/uiAwj42nV3c)
+
+Haz click a continuación para visualizar gameplay en YouTube.
+
+[![Trapped Inside Gameplay](https://img.youtube.com/vi/mPIO5fUtbHQ/maxresdefault.jpg)](https://youtu.be/mPIO5fUtbHQ)
