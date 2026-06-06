@@ -9,30 +9,42 @@ public class EmergencyLight : MonoBehaviour
     public GameObject sirenSound;
 
     [Header("Settings")]
-    public float alarmDuration = 10f; // ⏱duración de la alarma
+    public float alarmDuration = 1.5f;
 
     private bool theThiefIsNear;
+
+    // Controla si la alarma está sonando actualmente
     private bool alarmActive = false;
+
+    // NUEVO: evita que vuelva a activarse nunca más
+    private bool alarmTriggered = false;
 
     private GameObject sirenInstance;
 
-    // Control del diálogo (solo una vez)
     private bool dialogueShown = false;
 
     void Start()
     {
-        emergencyLightComponent = emergencyLight.GetComponent<Light>();
+        emergencyLightComponent =
+            emergencyLight.GetComponent<Light>();
+
         theThiefIsNear = false;
         alarmActive = false;
+        alarmTriggered = false;
+
+        emergencyLightComponent.enabled = false;
     }
 
     void Update()
     {
-        if (theThiefIsNear && alarmActive)
+        if (alarmActive)
         {
             emergencyLightComponent.enabled = true;
+
             emergencyLightComponent.intensity =
-                Mathf.Abs(Mathf.Sin(Time.time * 8)) * 15;
+                Mathf.Abs(
+                    Mathf.Sin(Time.time * 8)
+                ) * 15;
         }
         else
         {
@@ -42,40 +54,46 @@ public class EmergencyLight : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Emergency"))
+        if (!other.CompareTag("Emergency"))
+            return;
+
+        // SOLO UNA VEZ EN TODA LA PARTIDA
+        if (alarmTriggered)
+            return;
+
+        alarmTriggered = true;
+        alarmActive = true;
+
+        sirenInstance = Instantiate(
+            sirenSound,
+            transform.position,
+            Quaternion.identity
+        );
+
+        AudioSource audio =
+            sirenInstance.GetComponent<AudioSource>();
+
+        if (audio != null)
         {
-            theThiefIsNear = true;
+            audio.Play();
+        }
 
-            // Activar alarma solo una vez
-            if (!alarmActive)
-            {
-                alarmActive = true;
+        Invoke(
+            nameof(StopAlarm),
+            alarmDuration
+        );
 
-                sirenInstance = Instantiate(sirenSound);
-                sirenInstance.GetComponent<AudioSource>().Play();
+        if (!dialogueShown)
+        {
+            dialogueShown = true;
 
-                // ⏱️ Apagar alarma tras X segundos
-                Invoke(nameof(StopAlarm), alarmDuration);
-
-                // Control del diálogo (solo una vez)
-                if (!dialogueShown)
-                {
-                    dialogueShown = true;
-                    Invoke(nameof(ShowAlarmThought), 0.3f);
-                }
-            }
+            Invoke(
+                nameof(ShowAlarmThought),
+                0.3f
+            );
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Emergency"))
-        {
-            theThiefIsNear = false;
-        }
-    }
-
-    // APAGAR ALARMA
     void StopAlarm()
     {
         alarmActive = false;
@@ -92,7 +110,7 @@ public class EmergencyLight : MonoBehaviour
         if (DialogueManager.Instance != null)
         {
             DialogueManager.Instance.ShowThought(
-                "Ohh no creo que active la alarma!!"
+                "Oh no... creo que activé la alarma."
             );
         }
     }

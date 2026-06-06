@@ -13,11 +13,6 @@ public class Raycast : MonoBehaviour
     [SerializeField] private Text objectText;
     [SerializeField] private TextMeshProUGUI interactionText;
 
-    [Header("Door Event")]
-    [SerializeField] private DoorLock mainDoor;
-
-    private bool doorEventTriggered = false;
-
     void Update()
     {
         RaycastHit hit;
@@ -31,10 +26,8 @@ public class Raycast : MonoBehaviour
             objectText.enabled = true;
             objectText.text = hit.collider.tag;
 
-            Transform root = hit.collider.transform.root;
-
             // =========================
-            // 🔦 LINTERN A (PICKUP)
+            // 🔦 LINTERNA
             // =========================
             FlashlightPickup flashlight =
                 hit.collider.GetComponentInParent<FlashlightPickup>();
@@ -53,7 +46,7 @@ public class Raycast : MonoBehaviour
             }
 
             // =========================
-            // LLAVE (PICKUP)
+            // 🔑 LLAVE
             // =========================
             KeyPickup key =
                 hit.collider.GetComponentInParent<KeyPickup>();
@@ -72,7 +65,7 @@ public class Raycast : MonoBehaviour
             }
 
             // =========================
-            // BOOKSHELF SECRETO
+            // 📚 ESTANTERÍA SECRETA
             // =========================
             SecretBookshelf shelf =
                 hit.collider.GetComponentInParent<SecretBookshelf>();
@@ -90,28 +83,7 @@ public class Raycast : MonoBehaviour
                 return;
             }
 
-            // =========================
-            // EVENTO: CERRAR PUERTA PRINCIPAL
-            // =========================
             interactionText.enabled = false;
-
-            bool isExcluded =
-                root.CompareTag("Flashlight") ||
-                root.CompareTag("Door") ||
-                root.CompareTag("Car") ||
-                root.CompareTag("Key");
-
-            if (!doorEventTriggered &&
-                FlashlightPickup.HasFlashlight &&
-                !isExcluded)
-            {
-                doorEventTriggered = true;
-
-                if (mainDoor != null)
-                {
-                    mainDoor.LockDoor();
-                }
-            }
         }
         else
         {
