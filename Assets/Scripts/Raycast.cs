@@ -18,11 +18,15 @@ public class Raycast : MonoBehaviour
         RaycastHit hit;
         Vector3 fwd = transform.forward;
 
-        if (Physics.Raycast(transform.position, fwd, out hit, rayLength, layerMaskInteract))
+        if (Physics.Raycast(
+            transform.position,
+            fwd,
+            out hit,
+            rayLength,
+            layerMaskInteract))
         {
             crosshairActive();
 
-            // TEXTO DEL OBJETO
             objectText.enabled = true;
             objectText.text = hit.collider.tag;
 
@@ -35,9 +39,11 @@ public class Raycast : MonoBehaviour
             if (flashlight != null)
             {
                 interactionText.enabled = true;
-                interactionText.text = "[E] / Click para recoger";
+                interactionText.text =
+                    "[E] / Click para recoger";
 
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
                 {
                     flashlight.PickUp();
                 }
@@ -54,11 +60,34 @@ public class Raycast : MonoBehaviour
             if (key != null)
             {
                 interactionText.enabled = true;
-                interactionText.text = "[E] / Click para recoger";
+                interactionText.text =
+                    "[E] / Click para recoger";
 
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
                 {
                     key.PickUp();
+                }
+
+                return;
+            }
+
+            // =========================
+            // 📦 PICKUPS GENERICOS
+            // =========================
+            PickupItem pickup =
+                hit.collider.GetComponentInParent<PickupItem>();
+
+            if (pickup != null)
+            {
+                interactionText.enabled = true;
+                interactionText.text =
+                    "[E] / Click para recoger";
+
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
+                {
+                    pickup.PickUp();
                 }
 
                 return;
@@ -73,9 +102,11 @@ public class Raycast : MonoBehaviour
             if (shelf != null)
             {
                 interactionText.enabled = true;
-                interactionText.text = "[E] Empujar";
+                interactionText.text =
+                    "[E] Empujar";
 
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
                 {
                     shelf.TryActivate();
                 }
@@ -89,6 +120,7 @@ public class Raycast : MonoBehaviour
         {
             objectText.enabled = false;
             interactionText.enabled = false;
+
             crosshairNormal();
         }
     }

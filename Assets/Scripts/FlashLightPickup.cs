@@ -13,6 +13,9 @@ public class FlashlightPickup : MonoBehaviour
     // Puerta principal
     public DoorLock mainDoor;
 
+    // Inventario
+    public ItemData itemData;
+
     private bool pickedUp = false;
 
     public void PickUp()
@@ -23,6 +26,14 @@ public class FlashlightPickup : MonoBehaviour
 
         // Marcar que el jugador ya tiene la linterna
         HasFlashlight = true;
+
+        // Agregar al inventario
+        if (itemData != null)
+        {
+            InventoryManager.Instance.AddItem(
+                itemData
+            );
+        }
 
         // Desbloquear puerta principal
         if (mainDoor != null)
@@ -41,7 +52,9 @@ public class FlashlightPickup : MonoBehaviour
 
         // Activar linterna del jugador
         if (playerFlashlight != null)
+        {
             playerFlashlight.SetActive(true);
+        }
 
         // Sonido al recoger
         if (pickupSound)
@@ -56,7 +69,7 @@ public class FlashlightPickup : MonoBehaviour
         if (DialogueManager.Instance != null)
         {
             DialogueManager.Instance.ShowThought(
-                "Me parecio escuchar como que se abrio la puerta principal..."
+                "Me pareció escuchar como que se abrió la puerta principal..."
             );
         }
 

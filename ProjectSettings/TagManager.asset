@@ -21,6 +21,10 @@ TagManager:
   - Bed
   - Door
   - Key
+  - Bookshelf
+  - Note
+  - Photo
+  - Cross
   layers:
   - Default
   - TransparentFX
