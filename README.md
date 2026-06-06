@@ -1,6 +1,6 @@
 # 🏚️ Trapped Inside
 
-**Trapped Inside** es un juego de terror psicológico tipo *escape room* desarrollado en **Unity**.  
+Trapped Inside es un juego de terror psicológico tipo escape room desarrollado en Unity.  
 El jugador despierta en una propiedad desconocida y debe explorar, resolver puzzles y encontrar la forma de escapar mientras evita a las entidades que habitan el lugar y descubre qué está ocurriendo dentro de la casa.
 
 ---
@@ -33,6 +33,41 @@ El jugador despierta en una propiedad desconocida y debe explorar, resolver puzz
 - ✔️ Sistema de alarma y luces de emergencia
 - ✔️ Pantalla de victoria y derrota
 - ✔️ Gestión correcta del cursor e input FPS
+- ✔️ Sistema de inventario basado en ScriptableObjects
+- ✔️ Sistema de pickups orientado a eventos
+- ✔️ UI dinámica de inventario con iconos y nombres
+
+---
+
+## 🎒 Sistema de Inventario (Event & Data Driven)
+
+El juego implementa un sistema de inventario basado en ScriptableObjects y eventos, permitiendo registrar y mostrar dinámicamente los objetos recolectados por el jugador.
+
+### Pickups disponibles
+
+- 🔦 Flashlight
+- 🗝 Key
+- 📸 Family Photo
+- 📝 Note
+- ✝ Cross
+
+### Características
+
+- ✔️ Cada pickup posee su propio modelo 3D dentro de la escena.
+- ✔️ Cada pickup cuenta con un ScriptableObject asociado.
+- ✔️ Los ScriptableObjects almacenan información del objeto como nombre e ícono.
+- ✔️ Los objetos pueden ser recogidos mediante interacción por Raycast.
+- ✔️ Al recoger un objeto se dispara un evento que actualiza automáticamente el inventario.
+- ✔️ El inventario muestra en pantalla el nombre e ícono de cada objeto recolectado.
+- ✔️ Los pickups pueden activar eventos dentro del juego, como desbloquear puertas o habilitar progresión.
+
+### Arquitectura utilizada
+
+- ItemData (ScriptableObject): almacena los datos de cada pickup.
+- InventoryManager: administra los objetos recolectados.
+- InventoryDisplay: actualiza dinámicamente la interfaz mediante eventos.
+- PickupItem: comportamiento genérico para objetos coleccionables.
+- UI Inventory Panel: representación visual del inventario del jugador.
 
 ---
 
@@ -71,6 +106,8 @@ La versión actual incluye:
 - UI de victoria y derrota
 - Interacción con objetos
 - Sistema de linterna
+- Sistema de inventario y recolección de objetos
+- Arquitectura Event & Data Driven mediante ScriptableObjects
 - Puzzles básicos
 - Sistema de vida y combate
 - Inteligencia artificial con múltiples comportamientos
@@ -101,7 +138,7 @@ La versión actual incluye:
 
 ## 📥 Clonar el Proyecto
 
-Este proyecto utiliza **Git LFS (Large File Storage)** para almacenar modelos, animaciones y otros archivos de gran tamaño.
+Este proyecto utiliza Git LFS (Large File Storage) para almacenar modelos, animaciones y otros archivos de gran tamaño.
 
 ### 1. Instalar Git LFS
 
@@ -111,54 +148,37 @@ https://git-lfs.com/
 
 #### macOS
 
-```bash
-brew install git-lfs
-```
+bash brew install git-lfs 
 
 #### Linux
 
-```bash
-sudo apt install git-lfs
-```
+bash sudo apt install git-lfs 
 
 ### 2. Inicializar Git LFS
 
-```bash
-git lfs install
-```
+bash git lfs install 
 
 ### 3. Clonar el repositorio
 
-```bash
-git clone https://github.com/Hanselopez99/TrappedInside.git
-```
+bash git clone https://github.com/Hanselopez99/TrappedInside.git 
 
 o usando SSH:
 
-```bash
-git clone git@github.com:Hanselopez99/TrappedInside.git
-```
+bash git clone git@github.com:Hanselopez99/TrappedInside.git 
 
 ### 4. Descargar los archivos LFS
 
-```bash
-git lfs pull
-```
+bash git lfs pull 
 
 o
 
-```bash
-git lfs fetch --all
-git lfs checkout
-```
+bash git lfs fetch --all git lfs checkout 
 
 ### 5. Abrir el proyecto
 
 Abrir la carpeta desde Unity Hub utilizando:
 
-```text
-Unity 6
-```
+text Unity 6 
 
 ---
 
@@ -174,4 +194,4 @@ Hansel Andre López Montenegro
 
 ## 🎮 Gameplay
 Haz click a continuación para visualizar gameplay en youtube.
-[![Trapped Inside Gameplay](https://img.youtube.com/vi/BTnM5AmLtzM/maxresdefault.jpg)](https://youtu.be/BTnM5AmLtzM)
+[![Trapped Inside Gameplay](https://img.youtube.com/vi/uiAwj42nV3c/maxresdefault.jpg)](https://youtu.be/uiAwj42nV3c)
