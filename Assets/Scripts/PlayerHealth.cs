@@ -97,4 +97,22 @@ public class PlayerHealth : MonoBehaviour
     {
         return currentHealth;
     }
+
+    // NUEVO: usado por el sistema de carga
+    public void SetCurrentHealth(int health)
+    {
+        currentHealth = health;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
+
+        UpdateHealthBar();
+    }
 }

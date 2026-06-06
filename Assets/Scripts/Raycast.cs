@@ -13,28 +13,25 @@ public class Raycast : MonoBehaviour
     [SerializeField] private Text objectText;
     [SerializeField] private TextMeshProUGUI interactionText;
 
-    [Header("Door Event")]
-    [SerializeField] private DoorLock mainDoor;
-
-    private bool doorEventTriggered = false;
-
     void Update()
     {
         RaycastHit hit;
         Vector3 fwd = transform.forward;
 
-        if (Physics.Raycast(transform.position, fwd, out hit, rayLength, layerMaskInteract))
+        if (Physics.Raycast(
+            transform.position,
+            fwd,
+            out hit,
+            rayLength,
+            layerMaskInteract))
         {
             crosshairActive();
 
-            // TEXTO DEL OBJETO
             objectText.enabled = true;
             objectText.text = hit.collider.tag;
 
-            Transform root = hit.collider.transform.root;
-
             // =========================
-            // 🔦 LINTERN A (PICKUP)
+            // 🔦 LINTERNA
             // =========================
             FlashlightPickup flashlight =
                 hit.collider.GetComponentInParent<FlashlightPickup>();
@@ -42,9 +39,11 @@ public class Raycast : MonoBehaviour
             if (flashlight != null)
             {
                 interactionText.enabled = true;
-                interactionText.text = "[E] / Click para recoger";
+                interactionText.text =
+                    "[E] / Click para recoger";
 
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
                 {
                     flashlight.PickUp();
                 }
@@ -53,7 +52,7 @@ public class Raycast : MonoBehaviour
             }
 
             // =========================
-            // LLAVE (PICKUP)
+            // 🔑 LLAVE
             // =========================
             KeyPickup key =
                 hit.collider.GetComponentInParent<KeyPickup>();
@@ -61,9 +60,11 @@ public class Raycast : MonoBehaviour
             if (key != null)
             {
                 interactionText.enabled = true;
-                interactionText.text = "[E] / Click para recoger";
+                interactionText.text =
+                    "[E] / Click para recoger";
 
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
                 {
                     key.PickUp();
                 }
@@ -72,7 +73,28 @@ public class Raycast : MonoBehaviour
             }
 
             // =========================
-            // BOOKSHELF SECRETO
+            // 📦 PICKUPS GENERICOS
+            // =========================
+            PickupItem pickup =
+                hit.collider.GetComponentInParent<PickupItem>();
+
+            if (pickup != null)
+            {
+                interactionText.enabled = true;
+                interactionText.text =
+                    "[E] / Click para recoger";
+
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
+                {
+                    pickup.PickUp();
+                }
+
+                return;
+            }
+
+            // =========================
+            // 📚 ESTANTERÍA SECRETA
             // =========================
             SecretBookshelf shelf =
                 hit.collider.GetComponentInParent<SecretBookshelf>();
@@ -80,9 +102,11 @@ public class Raycast : MonoBehaviour
             if (shelf != null)
             {
                 interactionText.enabled = true;
-                interactionText.text = "[E] Empujar";
+                interactionText.text =
+                    "[E] Empujar";
 
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0) ||
+                    Input.GetKeyDown(KeyCode.E))
                 {
                     shelf.TryActivate();
                 }
@@ -90,33 +114,13 @@ public class Raycast : MonoBehaviour
                 return;
             }
 
-            // =========================
-            // EVENTO: CERRAR PUERTA PRINCIPAL
-            // =========================
             interactionText.enabled = false;
-
-            bool isExcluded =
-                root.CompareTag("Flashlight") ||
-                root.CompareTag("Door") ||
-                root.CompareTag("Car") ||
-                root.CompareTag("Key");
-
-            if (!doorEventTriggered &&
-                FlashlightPickup.HasFlashlight &&
-                !isExcluded)
-            {
-                doorEventTriggered = true;
-
-                if (mainDoor != null)
-                {
-                    mainDoor.LockDoor();
-                }
-            }
         }
         else
         {
             objectText.enabled = false;
             interactionText.enabled = false;
+
             crosshairNormal();
         }
     }

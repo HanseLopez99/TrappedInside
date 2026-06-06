@@ -7,6 +7,9 @@ public class HunterAI : MonoBehaviour
     public Transform player;
     public Transform[] patrolPoints;
 
+    [Header("Audio")]
+    public AudioSource laughAudio;
+
     [Header("Detección")]
     public float detectionRange = 10f;
     public float loseRange = 15f;
@@ -61,6 +64,12 @@ public class HunterAI : MonoBehaviour
         {
             isChasing = true;
             agent.speed = chaseSpeed;
+
+            // Reproducir risa cuando inicia la persecución
+            if (laughAudio != null)
+            {
+                laughAudio.Play();
+            }
 
             // Mostrar diálogo solo la primera vez
             if (!dialogueShown &&

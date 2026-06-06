@@ -7,26 +7,56 @@ public class DoorLock : MonoBehaviour
 
     private bool locked = false;
 
+    void Start()
+    {
+        LockDoorWithoutDialogue();
+    }
+
     public void LockDoor()
     {
         if (locked) return;
+
         locked = true;
 
-        // Detener cualquier movimiento
         if (rb != null)
             rb.angularVelocity = Vector3.zero;
 
-        // Bloquear la puerta
         JointLimits limits = hinge.limits;
         limits.min = 0f;
         limits.max = 0f;
         hinge.limits = limits;
         hinge.useLimits = true;
 
-        // Diálogo
         if (DialogueManager.Instance != null)
         {
-            DialogueManager.Instance.ShowThought("Noo, la puerta se cerró... Debo escapar de aquí rápido.");
+            DialogueManager.Instance.ShowThought(
+                "Noo, la puerta se cerró... Debo escapar de aquí rápido."
+            );
         }
+    }
+
+    public void LockDoorWithoutDialogue()
+    {
+        locked = true;
+
+        if (rb != null)
+            rb.angularVelocity = Vector3.zero;
+
+        JointLimits limits = hinge.limits;
+        limits.min = 0f;
+        limits.max = 0f;
+        hinge.limits = limits;
+        hinge.useLimits = true;
+    }
+
+    public void UnlockDoor()
+    {
+        locked = false;
+        hinge.useLimits = false;
+    }
+
+    public bool IsLocked()
+    {
+        return locked;
     }
 }
